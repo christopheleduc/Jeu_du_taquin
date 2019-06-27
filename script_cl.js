@@ -47,9 +47,9 @@ function setInitState () {
 }
 
 
-
+// execute les mouvements
 function applyMove(state, ec, move) {
-        // à faire
+        // Si Bas sauf ligne 0 (i = 0)
         if (move == BAS && ec.i > 0) {
             let a = state [ec.i-1] [ec.j];
             state [ec.i] [ec.j] = a;
@@ -57,7 +57,7 @@ function applyMove(state, ec, move) {
             // state [ec.i].splice([ec.j] , 1 , a);
             // state [ec.i-1].splice([ec.j] , 1 , 0);
             ec.i = ec.i-1;
-        
+        // Si Haut sauf ligne 3 (i = 3)
         } else if (move == HAUT && ec.i < 3) {
             let a = state[ec.i+1][ec.j];
             //console.log(a);
@@ -66,7 +66,7 @@ function applyMove(state, ec, move) {
             //state [ec.i].splice([ec.j] , 1 , a);
             //state [ec.i+1].splice([ec.j] , 1 , 0);
             ec.i = ec.i+1;
-
+        // Si Droite sauf Colonne 0 (j = 0)
         } else if (move == DROITE && ec.j > 0) {
             let a = state[ec.i][ec.j-1];
             //console.log(a);
@@ -75,7 +75,7 @@ function applyMove(state, ec, move) {
             // state [ec.i].splice([ec.j] , 1 , a);
             // state [ec.i].splice([ec.j-1] , 1 , 0);
             ec.j = ec.j-1;
-
+        // Si Gauche sauf Colonne 3 (j = 3)
         } else if (move == GAUCHE && ec.j < 3) {
             let a = state[ec.i][ec.j+1];
             //console.log(a);
@@ -90,7 +90,7 @@ function applyMove(state, ec, move) {
 }
 
 
-
+// lien calcul ==> HTML
 function displayState(tab) {
   $(".grid").empty();
   for (let i = 0; i < tab.length; i++) {
@@ -113,6 +113,7 @@ function displayState(tab) {
 
 $(".check").click(function() {
   console.log("Is winning? ", checkWin(current_state));
+  checkWin (actuel_state);
   // TODO: penser à implémenter la fonction checkWin
 });
 
@@ -120,8 +121,9 @@ $(".check").click(function() {
 $(".reset").click(reset);
 
 $(".shuffle").click(function() {
+  console.log("trd")
   // pas le temps de faire le shuffle
-  doRandomShuffle(current_state, empty_cell);
+  doRandomShuffle(current_state, empty_cell, soluce);
   displayState (current_state);
 });
 
@@ -149,27 +151,28 @@ $(".minus").click(function() {
   console.log("Plus petit")
 });
 
-function doRandomShuffle() {
+function doRandomShuffle(current_state, e_cell, soluce) {
     let altern = 173;
     for (let k = 0; k < altern; k++) {
         let random = Math.floor(Math.random() * (5 - 1 + 1)) + 1;
-        console.log
-        if (random === 1 && empty_cell.i < 3) {
-            applyMove(current_state, empty_cell, "H");
+        if (random === 1 && e_cell.i < 3) {
+            applyMove(current_state, e_cell, "H");
             test_a.push("B");
             soluce.unshift("B");
-        } else if (random === 2 && empty_cell.i > 0) {
-            applyMove(current_state, empty_cell, "B");
+        } else if (random === 2 && e_cell.i > 0) {
+            applyMove(current_state, e_cell, "B");
             test_a.push("H");
             soluce.unshift("H");
-        } else if (random === 3 && empty_cell.j > 0) {
-            applyMove(current_state, empty_cell, "D");
+        } else if (random === 3 && e_cell.j > 0) {
+            applyMove(current_state, e_cell, "D");
             test_a.push("G");
             soluce.unshift("G");
-        } else if (random === 4 && empty_cell.j < 3) {
-            applyMove(current_state, empty_cell, "G");
+        } else if (random === 4 && e_cell.j < 3) {
+            applyMove(current_state, e_cell, "G");
             test_a.push("D");
             soluce.unshift("D");
+        } else {
+
         }
     }
     console.log("normal: " + test_a);
@@ -179,7 +182,8 @@ function doRandomShuffle() {
 }
 
 $(".shuffle").click(function () {
-    doRandomShuffle();
+    //reset();
+    doRandomShuffle(current_state, empty_cell, soluce);
     displayState(current_state);
 });
 
@@ -272,9 +276,10 @@ function checkWin (actuel_state) {
 
 
 function reset () {
-    //winner = setInitState();
+    soluce = [];
     setInitState();
     displayState (current_state);
+    return (soluce);
 }
 
 // Affichage initial : on fait un reset
