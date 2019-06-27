@@ -37,7 +37,8 @@ function setInitState () {
   }
   empty_cell.i = side-1;
   empty_cell.j = side-1;
-  winner = current_state;
+  winner = $.extend(true, [], current_state);
+  //winner = current_state;
   return winner;
 }
 
@@ -194,24 +195,6 @@ function checkKey(e) {
       applyMove (current_state, empty_cell, HAUT);
     }
     else if (e.keyCode == 40) {
-        //let a=current_state[empty_cell.i-1][empty_cell.j];
-
-        //console.log(a);
-        //current_state.splice([empty_cell.i-1] [empty_cell.j] , 1 , a);
-
-        //current_state [empty_cell.i].splice([empty_cell.j] , 1 , a);
-        //current_state [empty_cell.i-1].splice([empty_cell.j] , 1 , 0);
-
-        //console.log(current_state[2][3] + " " + empty_cell.i , empty_cell.j);
-        //console.log(current_state[empty_cell.i-1][empty_cell.j] + " " + empty_cell.i , empty_cell.j);
-        //console.log(current_state);
-
-        //empty_cell.i=empty_cell.i-1;
-
-        //console.log(empty_cell.i , empty_cell.j + " " +  current_state[2][3] );
-        //current_state.splice(empty_cell.i , empty_cell.j , );
-        //current_state[empty_cell.i-1] = current_state[empty_cell.i+1];
-        // down arrow
       applyMove (current_state, empty_cell, BAS);
     }
     else if (e.keyCode == 37) {
@@ -229,15 +212,27 @@ function checkKey(e) {
 }
 
 
-function checkWin () {
-  console.log("checkwin");
+function checkWin (actuel_state) {
+    if (JSON.stringify(winner) != JSON.stringify(actuel_state)) {
+        console.log("Sorry, you loose !");
+        console.log("CurrentState: " + JSON.stringify(actuel_state));
+        console.log("Winner: " + JSON.stringify(winner));
+        return (false);
+
+    } else {
+        console.log("Congratulation, you win !");
+        console.log("CurrentState: " + JSON.stringify(actuel_state));
+        console.log("Winner: " + JSON.stringify(winner));
+        return (true);
+    }
+  //console.log("checkwin");
 
 }
 
 
 function reset () {
-    winner = setInitState();
-    //setInitState();
+    //winner = setInitState();
+    setInitState();
     displayState (current_state);
 }
 
