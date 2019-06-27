@@ -20,6 +20,10 @@ const empty_cell = {i: 0, j:0};
 // Tableau qui reçoit l'image du jeu réussit
 let winner = [];
 
+// Tableau qui reçoit le chemin
+let soluce = [];
+let test_a = [];
+
 // Initialisation de l'état courant
 function setInitState () {
   current_state = [];     // on vide le {tableau
@@ -123,8 +127,13 @@ $(".shuffle").click(function() {
 
 $(".solution").click(function() {
   console.log("Solution demandée par l'utilisateur·ice")
-  findSolution(current_state, empty_cell);
+  findSolution(current_state, empty_cell, soluce);
 });
+
+function findSolution(current_state, empty_cell, soluce) {
+    for(var i = 0, len = soluce.length; i < len; ++i)
+    applyMove(current_state, empty_cell, soluce[i]);
+}
 
 
 // Pour augmenter / diminuer la taille d'un côté.
@@ -140,7 +149,39 @@ $(".minus").click(function() {
   console.log("Plus petit")
 });
 
+function doRandomShuffle() {
+    let altern = 173;
+    for (let k = 0; k < altern; k++) {
+        let random = Math.floor(Math.random() * (5 - 1 + 1)) + 1;
+        console.log
+        if (random === 1 && empty_cell.i < 3) {
+            applyMove(current_state, empty_cell, "H");
+            test_a.push("B");
+            soluce.unshift("B");
+        } else if (random === 2 && empty_cell.i > 0) {
+            applyMove(current_state, empty_cell, "B");
+            test_a.push("H");
+            soluce.unshift("H");
+        } else if (random === 3 && empty_cell.j > 0) {
+            applyMove(current_state, empty_cell, "D");
+            test_a.push("G");
+            soluce.unshift("G");
+        } else if (random === 4 && empty_cell.j < 3) {
+            applyMove(current_state, empty_cell, "G");
+            test_a.push("D");
+            soluce.unshift("D");
+        }
+    }
+    console.log("normal: " + test_a);
+    console.log("inverse: " + soluce);
+    return (soluce);
 
+}
+
+$(".shuffle").click(function () {
+    doRandomShuffle();
+    displayState(current_state);
+});
 
 
 // Ici on gere l'ajout dynamique de .item 
