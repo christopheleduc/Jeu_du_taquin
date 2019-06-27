@@ -185,6 +185,7 @@ $(".shuffle").click(function () {
     //reset();
     doRandomShuffle(current_state, empty_cell, soluce);
     displayState(current_state);
+    //soluce = [];
 });
 
 
@@ -236,17 +237,21 @@ function checkKey(e) {
     e = e || window.event;
 
     if (e.keyCode == 38) {
+      soluce.unshift("B");
       // up arrow
       applyMove (current_state, empty_cell, HAUT);
     }
     else if (e.keyCode == 40) {
+      soluce.unshift("H");
       applyMove (current_state, empty_cell, BAS);
     }
     else if (e.keyCode == 37) {
+      soluce.unshift("D");
        // left arrow
       applyMove (current_state, empty_cell, GAUCHE);
     }
     else if (e.keyCode == 39) {
+      soluce.unshift("G");
        // right arrow
       applyMove (current_state, empty_cell, DROITE);
     }
