@@ -117,7 +117,6 @@ $(".check").click(function() {
   // TODO: penser à implémenter la fonction checkWin
 });
 
-
 $(".reset").click(reset);
 
 $(".shuffle").click(function() {
@@ -127,14 +126,22 @@ $(".shuffle").click(function() {
   displayState (current_state);
 });
 
+// Clic Solution
 $(".solution").click(function() {
   console.log("Solution demandée par l'utilisateur·ice")
   findSolution(current_state, empty_cell, soluce);
 });
 
-function findSolution(current_state, empty_cell, soluce) {
-    for(var i = 0, len = soluce.length; i < len; ++i)
-    applyMove(current_state, empty_cell, soluce[i]);
+// Fonction Solution
+function findSolution(curr_state, emp_cell, sole) {
+    for(var i = 0, len = sole.length; i < len; ++i) {
+      applyMove(curr_state, emp_cell, sole[i]);
+    }
+    sole = [];
+    soluce = sole;
+    //setInitState();
+    //displayState (current_state);
+    return (soluce);
 }
 
 
@@ -151,36 +158,7 @@ $(".minus").click(function() {
   console.log("Plus petit")
 });
 
-function doRandomShuffle(current_state, e_cell, soluce) {
-    let altern = 173;
-    for (let k = 0; k < altern; k++) {
-        let random = Math.floor(Math.random() * (5 - 1 + 1)) + 1;
-        if (random === 1 && e_cell.i < 3) {
-            applyMove(current_state, e_cell, "H");
-            test_a.push("B");
-            soluce.unshift("B");
-        } else if (random === 2 && e_cell.i > 0) {
-            applyMove(current_state, e_cell, "B");
-            test_a.push("H");
-            soluce.unshift("H");
-        } else if (random === 3 && e_cell.j > 0) {
-            applyMove(current_state, e_cell, "D");
-            test_a.push("G");
-            soluce.unshift("G");
-        } else if (random === 4 && e_cell.j < 3) {
-            applyMove(current_state, e_cell, "G");
-            test_a.push("D");
-            soluce.unshift("D");
-        } else {
-
-        }
-    }
-    console.log("normal: " + test_a);
-    console.log("inverse: " + soluce);
-    return (soluce);
-
-}
-
+// Clic Shuffle
 $(".shuffle").click(function () {
     //reset();
     doRandomShuffle(current_state, empty_cell, soluce);
@@ -188,6 +166,36 @@ $(".shuffle").click(function () {
     //soluce = [];
 });
 
+// Fonction shuffle
+function doRandomShuffle(current_state, e_cell, soluce) {
+  let altern = 173;
+  for (let k = 0; k < altern; k++) {
+      let random = Math.floor(Math.random() * (5 - 1 + 1)) + 1;
+      if (random === 1 && e_cell.i < 3) {
+          applyMove(current_state, e_cell, "H");
+          test_a.push("B");
+          soluce.unshift("B");
+      } else if (random === 2 && e_cell.i > 0) {
+          applyMove(current_state, e_cell, "B");
+          test_a.push("H");
+          soluce.unshift("H");
+      } else if (random === 3 && e_cell.j > 0) {
+          applyMove(current_state, e_cell, "D");
+          test_a.push("G");
+          soluce.unshift("G");
+      } else if (random === 4 && e_cell.j < 3) {
+          applyMove(current_state, e_cell, "G");
+          test_a.push("D");
+          soluce.unshift("D");
+      } else {
+
+      }
+  }
+  console.log("normal: " + test_a);
+  console.log("inverse: " + soluce);
+  return (soluce);
+
+}
 
 // Ici on gere l'ajout dynamique de .item 
 $(".grid").on('click', '.item', function(){
