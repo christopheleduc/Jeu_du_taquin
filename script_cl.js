@@ -46,19 +46,24 @@ function setInitState () {
   return winner;
 }
 
+//setTimeout(applyMove, 2000);
 
 // execute les mouvements
 function applyMove(state, ec, move) {
         // Si Bas sauf ligne 0 (i = 0)
-        if (move == BAS && ec.i > 0) {
+          if (move == BAS && ec.i > 0) {
+            //setTimeout(function(){}, 2000);
+            //window.setTimeout(function(){}, 1000);
             let a = state [ec.i-1] [ec.j];
             state [ec.i] [ec.j] = a;
             state [ec.i-1] [ec.j] = 0;
             // state [ec.i].splice([ec.j] , 1 , a);
             // state [ec.i-1].splice([ec.j] , 1 , 0);
             ec.i = ec.i-1;
+            //displayState(state);
         // Si Haut sauf ligne 3 (i = 3)
         } else if (move == HAUT && ec.i < 3) {
+          //setTimeout(function(){}, 2000);
             let a = state[ec.i+1][ec.j];
             //console.log(a);
             state [ec.i] [ec.j] = a;
@@ -66,8 +71,10 @@ function applyMove(state, ec, move) {
             //state [ec.i].splice([ec.j] , 1 , a);
             //state [ec.i+1].splice([ec.j] , 1 , 0);
             ec.i = ec.i+1;
+            //displayState(state);
         // Si Droite sauf Colonne 0 (j = 0)
         } else if (move == DROITE && ec.j > 0) {
+          //setTimeout(function(){}, 2000);
             let a = state[ec.i][ec.j-1];
             //console.log(a);
             state [ec.i] [ec.j] = a;
@@ -75,8 +82,10 @@ function applyMove(state, ec, move) {
             // state [ec.i].splice([ec.j] , 1 , a);
             // state [ec.i].splice([ec.j-1] , 1 , 0);
             ec.j = ec.j-1;
+            //displayState(state);
         // Si Gauche sauf Colonne 3 (j = 3)
         } else if (move == GAUCHE && ec.j < 3) {
+          //setTimeout(function(){}, 2000);
             let a = state[ec.i][ec.j+1];
             //console.log(a);
             state [ec.i][ec.j] = a;
@@ -84,10 +93,13 @@ function applyMove(state, ec, move) {
             // state [ec.i].splice([ec.j] , 1 , a);
             // state [ec.i].splice([ec.j+1] , 1 , 0);
             ec.j = ec.j+1;
-            
-        }
+            //displayState(state);
+        };
+        //setTimeout( applyMove, 1000);
    displayState(state);
 }
+
+
 
 
 // lien calcul ==> HTML
@@ -113,14 +125,14 @@ function displayState(tab) {
 
 $(".check").click(function() {
   console.log("Is winning? ", checkWin(current_state));
-  checkWin (actuel_state);
+  checkWin (current_state);
   // TODO: penser à implémenter la fonction checkWin
 });
 
 $(".reset").click(reset);
 
 $(".shuffle").click(function() {
-  console.log("trd")
+  //console.log("trd")
   // pas le temps de faire le shuffle
   doRandomShuffle(current_state, empty_cell, soluce);
   displayState (current_state);
@@ -134,14 +146,26 @@ $(".solution").click(function() {
 
 // Fonction Solution
 function findSolution(curr_state, emp_cell, sole) {
-    for(var i = 0, len = sole.length; i < len; ++i) {
-      applyMove(curr_state, emp_cell, sole[i]);
-    }
+  let i = 0;
+  console.log(sole.length-1);
+  let a = setInterval(function(){
+    applyMove(curr_state, emp_cell, sole[i]);
+    i++;
+    if (i == sole.length-1) {
+       clearInterval(a);
+      };
+  }, 1000);
+    //for(var i = 0, len = sole.length; i < len; ++i) {
+      
+      //setInterval(function(){ applyMove(curr_state, emp_cell, sole[i]); }, 1000);
+      //clearInterval;
+    //}
+
     sole = [];
     soluce = sole;
     //setInitState();
-    //displayState (current_state);
-    return (soluce);
+    displayState (curr_state);
+    //return (soluce);
 }
 
 
@@ -167,33 +191,32 @@ $(".shuffle").click(function () {
 });
 
 // Fonction shuffle
-function doRandomShuffle(current_state, e_cell, soluce) {
-  let altern = 173;
+function doRandomShuffle(currentstate, ecell, soluc) {
+  let altern = 10;
   for (let k = 0; k < altern; k++) {
       let random = Math.floor(Math.random() * (5 - 1 + 1)) + 1;
-      if (random === 1 && e_cell.i < 3) {
-          applyMove(current_state, e_cell, "H");
+      if (random === 1 && ecell.i < 3) {
+          applyMove(currentstate, ecell, "H");
           test_a.push("B");
-          soluce.unshift("B");
-      } else if (random === 2 && e_cell.i > 0) {
-          applyMove(current_state, e_cell, "B");
+          soluc.unshift("B");
+      } else if (random === 2 && ecell.i > 0) {
+          applyMove(currentstate, ecell, "B");
           test_a.push("H");
-          soluce.unshift("H");
-      } else if (random === 3 && e_cell.j > 0) {
-          applyMove(current_state, e_cell, "D");
+          soluc.unshift("H");
+      } else if (random === 3 && ecell.j > 0) {
+          applyMove(currentstate, ecell, "D");
           test_a.push("G");
-          soluce.unshift("G");
-      } else if (random === 4 && e_cell.j < 3) {
-          applyMove(current_state, e_cell, "G");
+          soluc.unshift("G");
+      } else if (random === 4 && ecell.j < 3) {
+          applyMove(currentstate, ecell, "G");
           test_a.push("D");
-          soluce.unshift("D");
-      } else {
-
+          soluc.unshift("D");
       }
   }
   console.log("normal: " + test_a);
-  console.log("inverse: " + soluce);
-  return (soluce);
+  console.log("inverse: " + soluc);
+  //soluce = soluc;
+  //return (soluce);
 
 }
 
@@ -244,21 +267,21 @@ document.onkeydown = checkKey;
 function checkKey(e) {
     e = e || window.event;
 
-    if (e.keyCode == 38) {
+    if (e.keyCode == 38 && empty_cell.i < 3) {
       soluce.unshift("B");
       // up arrow
       applyMove (current_state, empty_cell, HAUT);
     }
-    else if (e.keyCode == 40) {
+    else if (e.keyCode == 40 && empty_cell.i > 0) {
       soluce.unshift("H");
       applyMove (current_state, empty_cell, BAS);
     }
-    else if (e.keyCode == 37) {
+    else if (e.keyCode == 37 && empty_cell.j < 3) {
       soluce.unshift("D");
        // left arrow
       applyMove (current_state, empty_cell, GAUCHE);
     }
-    else if (e.keyCode == 39) {
+    else if (e.keyCode == 39 && empty_cell.j > 0) {
       soluce.unshift("G");
        // right arrow
       applyMove (current_state, empty_cell, DROITE);
@@ -292,7 +315,7 @@ function reset () {
     soluce = [];
     setInitState();
     displayState (current_state);
-    return (soluce);
+    //return (soluce);
 }
 
 // Affichage initial : on fait un reset
