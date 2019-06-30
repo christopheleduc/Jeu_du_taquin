@@ -43,7 +43,7 @@ function setInitState () {
   empty_cell.j = side-1;
   winner = $.extend(true, [], current_state);
   //winner = current_state;
-  return winner;
+  //return winner;
 }
 
 
@@ -135,13 +135,14 @@ $(".solution").click(function() {
 // Fonction Solution
 function findSolution(curr_state, emp_cell, sole) {
     for(var i = 0, len = sole.length; i < len; ++i) {
+      console.log(i);
       applyMove(curr_state, emp_cell, sole[i]);
     }
     sole = [];
     soluce = sole;
     //setInitState();
     //displayState (current_state);
-    return (soluce);
+    //return (soluce);
 }
 
 
@@ -193,7 +194,7 @@ function doRandomShuffle(current_state, e_cell, soluce) {
   }
   console.log("normal: " + test_a);
   console.log("inverse: " + soluce);
-  return (soluce);
+  //return (soluce);
 
 }
 
@@ -244,21 +245,21 @@ document.onkeydown = checkKey;
 function checkKey(e) {
     e = e || window.event;
 
-    if (e.keyCode == 38) {
+    if (e.keyCode == 38 && empty_cell.i < 3) {
       soluce.unshift("B");
       // up arrow
       applyMove (current_state, empty_cell, HAUT);
     }
-    else if (e.keyCode == 40) {
+    else if (e.keyCode == 40 && empty_cell.i > 0) {
       soluce.unshift("H");
       applyMove (current_state, empty_cell, BAS);
     }
-    else if (e.keyCode == 37) {
+    else if (e.keyCode == 37 && empty_cell.j < 3) {
       soluce.unshift("D");
        // left arrow
       applyMove (current_state, empty_cell, GAUCHE);
     }
-    else if (e.keyCode == 39) {
+    else if (e.keyCode == 39 && empty_cell.j > 0) {
       soluce.unshift("G");
        // right arrow
       applyMove (current_state, empty_cell, DROITE);
@@ -292,7 +293,7 @@ function reset () {
     soluce = [];
     setInitState();
     displayState (current_state);
-    return (soluce);
+    //return (soluce);
 }
 
 // Affichage initial : on fait un reset
