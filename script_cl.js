@@ -134,10 +134,24 @@ $(".solution").click(function() {
 
 // Fonction Solution
 function findSolution(curr_state, emp_cell, sole) {
-    for(var i = 0, len = sole.length; i < len; ++i) {
+    // for(var i = 0, len = sole.length; i < len; ++i) {
+    //   console.log(i);
+    //   console.log(sole[i]);
+    //   applyMove(curr_state, emp_cell, sole[i]);
+    // }
+    var i = 0;
+    var soleInterne = sole;
+    len = sole.length;
+    let intervalID = setInterval(function()
+    {
       console.log(i);
-      applyMove(curr_state, emp_cell, sole[i]);
-    }
+      console.log(soleInterne[i]);
+      applyMove(curr_state, emp_cell, soleInterne[i]);
+      if (i == soleInterne.length-1) {
+          clearInterval(intervalID)};
+      ++i;
+    }, 1000);
+    console.log(sole);
     sole = [];
     soluce = sole;
     //setInitState();
